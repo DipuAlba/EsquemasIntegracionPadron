@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Respuesta",
+  "type": "object",
+  "properties": {
+    "Estado": {
+      "type": "integer",
+      "description": "Código de estado de la respuesta:\n\n- 200: Correcto. Se debe haber generado el justificante y debe aparecer en el campo 'Justificante'.\n- 400: Error. Alguno de los parámetros de entrada no era correcto.\n- 404: Error. El ciudadano no consta como que haya residido nunca en el municipio.\n- 500: Error interno no controlado o desconocido de la aplicación.\n- 521: Baja por cambio de residencia. Se ha solicitado el certificado/volante no histórico de un ciudadano de baja en ese municipio.\n- 522: Baja por defunción. Se ha solicitado el certificado/volante no histórico de un ciudadano de baja en ese municipio.\n- 523: Baja por duplicado. Se ha solicitado el certificado/volante no histórico de un ciudadano de baja en ese municipio.\n- 524: Baja por inscripción indebida. Se ha solicitado el certificado/volante no histórico de un ciudadano de baja en ese municipio.\n- 525: Baja por caducidad. Se ha solicitado el certificado/volante no histórico de un ciudadano de baja en ese municipio.\n- 811: Error. El ciudadano no tiene permiso para obtener ese certificado.",
+      "enum": [200, 400, 404, 500, 521, 522, 523, 524, 525, 811]
+    },
+    "Mensaje": {
+      "type": "string",
+      "description": "Mensaje para mostrar al ciudadano en caso de error"
+    },
+    "Error": {
+      "type": "string",
+      "description": "Texto interno detallado del error"
+    },
+    "Formato": {
+      "type": "string",
+      "description": "Formato del justificante ('P' para PDF, 'H' para HTML)",
+      "enum": ["P", "H"]
+    },
+    "Justificante": {
+      "type": "string",
+      "description": "Contenido del volante/certificado en base64",
+      "contentEncoding": "base64"
+    }
+  },
+  "required": ["Estado", "Formato"],
+  "oneOf": [
+    {
+      "properties": {
+        "Estado": { "const": 200 }
+      },
+      "required": ["Justificante"]
+    },
+    {
+      "properties": {
+        "Estado": { "not": { "const": 200 } }
+      },
+      "required": ["Mensaje", "Error"]
+    }
+  ],
+  "additionalProperties": false
+}
