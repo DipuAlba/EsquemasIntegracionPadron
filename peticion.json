@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Petición",
+  "type": "object",
+  "properties": {
+    "Documento": {
+      "type": "string",
+      "description": "Documento acreditativo del ciudadano (NIF, NIE, Documento Europeo o Pasaporte)",
+      "minLength": 1
+    },
+    "FechaNacimiento": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha de nacimiento del ciudadano en formato ISO-8601 (obligatorio si el Documento es de tipo Pasaporte)"
+    },
+    "Categoria": {
+      "type": "string",
+      "description": "Categoría del justificante ('C' para certificado, 'V' para volante)",
+      "enum": ["C", "V"]
+    },
+    "Tipo": {
+      "type": "string",
+      "description": "Tipo del certificado ('I' para Individual, 'H' para Histórico, 'C' para Colectivo, 'K' para Colectivo Histórico, 'T' opcionalmente para volantes tributarios)",
+      "enum": ["I", "H", "C", "K", "T"]
+    },
+    "Efectos": {
+      "type": "string",
+      "description": "Texto que aparecerá como motivo 'Efectos' en el justificante"
+    },
+    "Motivo": {
+      "type": "string",
+      "description": "Texto utilizado para registro y estadísticas internas",
+      "minLength": 1
+    },
+    "Idioma": {
+      "type": "string",
+      "description": "Idioma en formato RFC 4646:2006 – ISO 639",
+      "pattern": "^[a-zA-Z]{2,3}(-[a-zA-Z]{2,3})?$"
+    },
+    "Tramitador": {
+      "type": "string",
+      "description": "Documento del ciudadano o del tramitador que solicita el certificado/volante",
+      "minLength": 1
+    },
+    "Entidad": {
+      "type": "string",
+      "description": "Código Sedipualb@ de la entidad de cinco cifras, o código Dir3 o INE del municipio",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "Documento",
+    "Categoria",
+    "Tipo",
+    "Motivo",
+    "Idioma",
+    "Tramitador",
+    "Entidad"
+  ],
+  "additionalProperties": false
+}
