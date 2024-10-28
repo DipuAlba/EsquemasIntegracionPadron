@@ -1,0 +1,6 @@
+{
+  "Estado": 404,
+  "Formato": "P",
+  "Mensaje": "El ciudadano no consta como residente en el municipio.",
+  "Error": "No se encontraron registros de empadronamiento para el documento 12345678A."
+}
